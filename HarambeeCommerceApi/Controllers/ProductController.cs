@@ -1,26 +1,24 @@
-﻿using HarambeeCommerce.Services.CustomerServices;
-using HarambeeCommerce.Services.ProductServices;
+﻿using HarambeeCommerce.Services.ProductServices;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HarambeeCommerceApi.Controllers
+namespace HarambeeCommerceApi.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class ProductController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ProductController : ControllerBase
+    private readonly IProductService _productService;
+
+    public ProductController(IProductService productService)
     {
-        private readonly IProductService _productService;
+        _productService = productService;
+    }
 
-        public ProductController(IProductService productService)
-        {
-            _productService = productService;
-        }
+    [HttpGet]
+    public async Task<IActionResult> GetAllProductsAsync()
+    {
+        var products = await _productService.GetProductsAsync();
 
-        [HttpGet]
-        public async Task<IActionResult> GetAllProductsAsync()
-        {
-            var products = await _productService.GetProductsAsync();
-
-            return !products.Any() ? NoContent() : Ok(products);
-        }
+        return !products.Any() ? NoContent() : Ok(products);
     }
 }

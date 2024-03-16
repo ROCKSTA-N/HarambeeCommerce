@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HarambeeCommerce.Services",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HarambeeCommerce.Persistence", "HarambeeCommerce.Persistence\HarambeeCommerce.Persistence.csproj", "{1397B4AD-B53E-4818-A06C-46F0D6190EEB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HarambeeCommerceWeb", "HarambeeCommerceWeb\HarambeeCommerceWeb.csproj", "{845F873F-5332-468A-A1B7-0E077A926AE7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{1397B4AD-B53E-4818-A06C-46F0D6190EEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1397B4AD-B53E-4818-A06C-46F0D6190EEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1397B4AD-B53E-4818-A06C-46F0D6190EEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{845F873F-5332-468A-A1B7-0E077A926AE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{845F873F-5332-468A-A1B7-0E077A926AE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{845F873F-5332-468A-A1B7-0E077A926AE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{845F873F-5332-468A-A1B7-0E077A926AE7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
