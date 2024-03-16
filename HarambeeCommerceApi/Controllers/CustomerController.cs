@@ -14,5 +14,13 @@ namespace HarambeeCommerceApi.Controllers
         {
             _customerService = customerService;
         }
+
+        [HttpGet("{customerId}")]
+        public async Task<IActionResult> GetCustomerByIdAsync(long customerId) 
+        {
+            var customer = await _customerService.GetCustomerById(customerId);
+
+            return customer is null ? NoContent() : Ok(customer);
+        }
     }
 }

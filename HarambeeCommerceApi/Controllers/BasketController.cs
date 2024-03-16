@@ -13,5 +13,12 @@ namespace HarambeeCommerceApi.Controllers
         {
             _basketService = basketService;
         }
+
+        [HttpGet]
+        public async Task<IActionResult> CalculateBasketPrice(long basketId)
+        {
+            var price = await _basketService.CalculateBasketValue(basketId);
+            return Ok(price);
+        }
     }
 }

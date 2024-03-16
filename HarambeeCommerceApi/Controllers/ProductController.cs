@@ -1,4 +1,5 @@
-﻿using HarambeeCommerce.Services.ProductServices;
+﻿using HarambeeCommerce.Services.CustomerServices;
+using HarambeeCommerce.Services.ProductServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HarambeeCommerceApi.Controllers
@@ -12,6 +13,14 @@ namespace HarambeeCommerceApi.Controllers
         public ProductController(IProductService productService)
         {
             _productService = productService;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllProductsAsync()
+        {
+            var products = await _productService.GetProductsAsync();
+
+            return products.Any() ? NoContent() : Ok(products);
         }
     }
 }

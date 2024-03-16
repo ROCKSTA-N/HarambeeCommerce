@@ -9,6 +9,6 @@ namespace HarambeeCommerce.Services.CustomerServices
 {
     public interface ICustomerService
     {
-        Task<Customer> GetCustomerById(long customerId);
+        Task<Customer?> GetCustomerById(long customerId);
     }
 }

@@ -9,7 +9,7 @@ public interface IRepository<T> where T : BaseEntity
     
     Task<T> FindAsync<TKey>(TKey id);
 
-    Task AddAsync(T entity);
+    Task<T> AddAsync(T entity);
 
     void AddRange(IEnumerable<T> entities);
 
@@ -17,7 +17,11 @@ public interface IRepository<T> where T : BaseEntity
 
     IQueryable<T> List(Expression<Func<T, bool>> expression);
 
-    void Update(T entity);
+    Task<ICollection<T>> GetAllAsync();
+
+    Task<T?> QuerySingle(Expression<Func<T, bool>> expression);
+
+    T Update(T entity);
 
     Task SaveAsync();
 }
