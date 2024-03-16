@@ -41,7 +41,7 @@ namespace HarambeeCommerce.Services.BasketServices
 
         public async Task<Basket> GetBasketAsync(long id) => await _basketRepository.FindAsync(id);  
 
-        public async Task<Basket?> GetCustomerBasketByCustomerIdAsync(long customerId) => _basketRepository.QuerySingle(x =>x.CustomerId == customerId && x.State == BasketState.Active);
+        public async Task<Basket?> GetCustomerBasketByCustomerIdAsync(long customerId) => await _basketRepository.QuerySingle(x =>x.CustomerId == customerId && x.State == BasketState.Active);
       
     }
 }

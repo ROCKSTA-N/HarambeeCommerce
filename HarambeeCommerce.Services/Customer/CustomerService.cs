@@ -12,7 +12,7 @@ namespace HarambeeCommerce.Services.CustomerServices
             _repository = repository;
         }
 
-        public async Task<Customer?> GetCustomerById(long customerId) =>
-           await _repository.FindAsync(customerId);
+        public async Task<Customer?> GetCustomerById(long customerId) =>  await _repository.FindAsync(customerId);
+
     }
 }

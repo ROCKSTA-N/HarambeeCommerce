@@ -12,8 +12,7 @@ namespace HarambeeCommerce.Services.ProductServices
             _repository = repository;
         }
 
-        public async Task<Product?> GetProductByIdAsync(long productId) => 
-            await _repository.FindAsync(productId);
+        public async Task<Product?> GetProductByIdAsync(long productId) => await _repository.FindAsync(productId);
 
         public async Task<ICollection<Product>> GetProductsAsync() => await _repository.GetAllAsync();
     }

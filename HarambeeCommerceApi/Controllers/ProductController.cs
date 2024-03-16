@@ -20,7 +20,7 @@ namespace HarambeeCommerceApi.Controllers
         {
             var products = await _productService.GetProductsAsync();
 
-            return products.Any() ? NoContent() : Ok(products);
+            return !products.Any() ? NoContent() : Ok(products);
         }
     }
 }
