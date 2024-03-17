@@ -16,9 +16,9 @@ public class CustomerController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllCustomers()
+    public  IActionResult GetAllCustomers()
     {
-        var customers = await _customerService.GetAllCustomersAsync();
+        var customers =  _customerService.GetAllCustomers();
         return !customers.Any() ? NoContent() : Ok(customers);
     }
 

@@ -18,10 +18,10 @@ public class BasketService : IBasketService
 
     public async Task<BasketDto> AddProductToBasketAsync(long basketId, long productId, long customerId)
     {
-        var customer = await harambeeCommerceContext.Customers.FirstAsync(p => p.Id == customerId)
+        var customer = await harambeeCommerceContext.Customers.FindAsync(customerId)
                     ?? throw new InvalidOperationException("Customer is required !");
 
-        var product = await harambeeCommerceContext.Products.FirstAsync(p => p.Id == productId)
+        var product = await harambeeCommerceContext.Products.FindAsync(productId)
                     ?? throw new InvalidOperationException("You can not add a product that does not exist !");
 
         if(product.CountInStock == 0)
@@ -40,10 +40,13 @@ public class BasketService : IBasketService
             basket = entityState.Entity;
         }
         else
-            basket = await harambeeCommerceContext
-                    .Baskets.Include(p => p.Customer)
-                    .Include(p => p.Products).ThenInclude(bp => bp.Product)
+        {
+
+            basket = await harambeeCommerceContext.Baskets
                     .FirstAsync(basket => basket.CustomerId == customerId) ?? throw new InvalidOperationException("Basket not found");
+
+            basket.Products = await AttachProductsAsync(basket.Id);
+        }
 
         if (basket.Products.Any(p => p.ProductId == productId))
         {
@@ -75,15 +78,20 @@ public class BasketService : IBasketService
         }; ;
     }
 
+    private async Task<ICollection<ProductBasket>> AttachProductsAsync(long id)
+    {
+        var productsInBasket = harambeeCommerceContext.ProductBaskets.SkipWhile(x =>x.BasketId !=  id).ToList();
+        foreach (var pb in productsInBasket)
+            pb.Product = await harambeeCommerceContext.Products.FindAsync(pb.ProductId);
+        return productsInBasket;
+    }
+
     private decimal CalculatePriceDiscount(decimal price, ICollection<ProductBasket> products)
     {
         var discountPercentage = 0.5M;
         var productCount = products.Sum( p => p.Count) ;
 
-        if (productCount < 5)
-            return price; 
-
-        return (price * discountPercentage) + price;
+        return productCount < 5 ? price : (price * discountPercentage) + price;
     }
 
     public async Task<decimal> CalculateBasketValue(long basketId)

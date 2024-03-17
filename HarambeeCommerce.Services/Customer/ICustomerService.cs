@@ -5,6 +5,6 @@ namespace HarambeeCommerce.Services.CustomerServices;
 
 public interface ICustomerService
 {
-    Task<IEnumerable<CustomerDto>> GetAllCustomersAsync();
+    IEnumerable<CustomerDto> GetAllCustomers();
     Task<CustomerDto?> GetCustomerById(long customerId);
 }

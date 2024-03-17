@@ -3,6 +3,7 @@ using HarambeeCommerce.Persistence.Entities;
 using HarambeeCommerce.Persistence.Repository;
 using HarambeeCommerce.Services.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Immutable;
 
 namespace HarambeeCommerce.Services.CustomerServices;
 
@@ -15,11 +16,12 @@ public class CustomerService : ICustomerService
         this.context = context;
     }
 
-    public async Task<IEnumerable<CustomerDto>> GetAllCustomersAsync()
+    public IEnumerable<CustomerDto> GetAllCustomers()
     {
-        var customers = await context.Customers.ToListAsync();
-        return !customers.Any() ? Array.Empty<CustomerDto>().ToList() : 
-            customers.Select(customer => new CustomerDto
+        var customers = context.Customers;
+         
+
+        return customers.ToList().Select(customer => new CustomerDto
             {
                 FirstName = customer.FirstName,
                 Id = customer.Id,
@@ -29,7 +31,7 @@ public class CustomerService : ICustomerService
 
     public async Task<CustomerDto?> GetCustomerById(long customerId)
     {
-        var customer = context.Customers.FirstOrDefault(x => x.Id == customerId);
+        var customer = await context.Customers.FirstOrDefaultAsync(x => x.Id == customerId);
 
         return customer == null ? null : new CustomerDto
         {

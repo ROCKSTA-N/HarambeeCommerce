@@ -17,7 +17,7 @@ public class ProductService : IProductService
 
     public async Task<ProductDto?> GetProductByIdAsync(long productId)
     {
-        var product = _context.Products.FirstOrDefault(p => p.Id == productId);
+        var product =await _context.Products.FirstOrDefaultAsync(p => p.Id == productId);
 
         return product == null ? null : new ProductDto
         {
