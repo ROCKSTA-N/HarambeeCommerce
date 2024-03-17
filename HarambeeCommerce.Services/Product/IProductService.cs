@@ -1,9 +1,10 @@
 ﻿using HarambeeCommerce.Persistence.Entities;
+using HarambeeCommerce.Services.Models;
 
 namespace HarambeeCommerce.Services.ProductServices;
 
 public interface IProductService
 {
-    Task<Product?> GetProductByIdAsync(long productId);
-    public Task<ICollection<Product>> GetProductsAsync();
+    Task<ProductDto> GetProductByIdAsync(long productId);
+    public Task<ICollection<ProductDto>> GetProductsAsync();
 }

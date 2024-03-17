@@ -17,9 +17,9 @@ public  class ApiIntegrationService : IApiIntegrationService
 {
     private readonly HttpClient _httpClient;
 
-    public ApiIntegrationService(HttpClient httpClient)
+    public ApiIntegrationService()
     {
-        _httpClient = httpClient;
+        _httpClient = new ();
     }
 
     public async Task<object> AddProductToBasketAsync(long basketId, long productId)

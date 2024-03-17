@@ -1,4 +1,5 @@
 ﻿using HarambeeCommerce.Persistence.Contexts;
+using HarambeeCommerce.Persistence.Entities;
 using HarambeeCommerce.Persistence.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -15,6 +16,8 @@ public static class HarambeeCommercePersistenceModule
             options.UseSqlServer(configuration.GetConnectionString("HarambeeCommerce"));
         });
 
+        services.AddScoped(typeof(IRepository<Product>), typeof(Repository<Product>));
+        services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
         return services;

@@ -5,10 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddHttpClient<IApiIntegrationService, ApiIntegrationService>(client =>
-{
-
-});
+//builder.Services.AddTransient<IApiIntegrationService, ApiIntegrationService>();
 
 var app = builder.Build();
 

@@ -33,7 +33,7 @@ public class BasketController : ControllerBase
     [HttpPost("addProduct")]
     public async Task<IActionResult> CalculateBasketPrice([FromBody] AddProductDto data)
     {
-        var basket = await _basketService.AddProductToBasketAsync(data.BasketId, data.ProductId);
+        var basket = await _basketService.AddProductToBasketAsync(data.BasketId, data.ProductId ,data.CustomerId);
         return Ok(basket);
     }
 }

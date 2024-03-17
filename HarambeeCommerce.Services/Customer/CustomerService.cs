@@ -1,17 +1,29 @@
-﻿using HarambeeCommerce.Persistence.Entities;
+﻿using HarambeeCommerce.Persistence.Contexts;
+using HarambeeCommerce.Persistence.Entities;
 using HarambeeCommerce.Persistence.Repository;
+using HarambeeCommerce.Services.Models;
 
 namespace HarambeeCommerce.Services.CustomerServices;
 
 public class CustomerService : ICustomerService
 {
-    private readonly IRepository<Customer> _repository;
+    private readonly HarambeeCommerceContext context;
 
-    public CustomerService(IRepository<Customer> repository)
+    public CustomerService(HarambeeCommerceContext context)
     {
-        _repository = repository;
+        this.context = context;
     }
 
-    public async Task<Customer?> GetCustomerById(long customerId) =>  await _repository.FindAsync(customerId);
+    public async Task<CustomerDto?> GetCustomerById(long customerId)
+    {
+        var customer = context.Customers.FirstOrDefault(x => x.Id == customerId);
+
+        return customer == null ? null : new CustomerDto
+        {
+            FirstName = customer.FirstName,
+            Id = customer.Id,
+            LastName = customer.LastName
+        };
+    }
 
 }

@@ -1,8 +1,9 @@
 ﻿using HarambeeCommerce.Persistence.Entities;
+using HarambeeCommerce.Services.Models;
 
 namespace HarambeeCommerce.Services.CustomerServices;
 
 public interface ICustomerService
 {
-    Task<Customer?> GetCustomerById(long customerId);
+    Task<CustomerDto?> GetCustomerById(long customerId);
 }

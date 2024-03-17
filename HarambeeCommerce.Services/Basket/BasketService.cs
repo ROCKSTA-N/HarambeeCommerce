@@ -1,46 +1,128 @@
-﻿using HarambeeCommerce.Persistence.Entities;
+﻿using HarambeeCommerce.Persistence.Contexts;
+using HarambeeCommerce.Persistence.Entities;
 using HarambeeCommerce.Persistence.Repository;
+using HarambeeCommerce.Services.Models;
 using HarambeeCommerce.Services.ProductServices;
+using Microsoft.EntityFrameworkCore;
 
 namespace HarambeeCommerce.Services.BasketServices;
 
 public class BasketService : IBasketService
 {
-    private readonly IRepository<Basket> _basketRepository;
-    private readonly IProductService _productService;
+    private readonly HarambeeCommerceContext harambeeCommerceContext;
 
-    public BasketService(IRepository<Basket> basketRepository, IProductService productService)
+    public BasketService(HarambeeCommerceContext harambeeCommerceContext)
     {
-        _basketRepository = basketRepository;
-        _productService = productService;
+        this.harambeeCommerceContext = harambeeCommerceContext;
     }
 
-    public async Task<Basket> AddProductToBasketAsync(long? basketId, long productId)
+    public async Task<BasketDto> AddProductToBasketAsync(long basketId, long productId, long customerId)
     {
-        var product = await _productService.GetProductByIdAsync(productId) 
+        var customer = await harambeeCommerceContext.Customers.FirstAsync(p => p.Id == customerId)
+                    ?? throw new InvalidOperationException("Customer is required !");
+
+        var product = await harambeeCommerceContext.Products.FirstAsync(p => p.Id == productId)
                     ?? throw new InvalidOperationException("You can not add a product that does not exist !");
 
-        var basket = !basketId.HasValue ? new Basket() : await GetBasketAsync(basketId.Value);
+        if(product.CountInStock == 0)
+            throw new InvalidOperationException("Product out of stock");
 
-        if (!basket.Products.Any())
-            basket.Products = Array.Empty<Product>();
+        var basket = new Basket();
 
-        basket.Products.Add(product);
+        if (basketId == 0)
+        {
+            basket = new Basket
+            {
+                CustomerId = customerId,
+                Products = Array.Empty<ProductBasket>()
+            };
+            var entityState = await harambeeCommerceContext.Baskets.AddAsync(basket);
+            basket = entityState.Entity;
+        }
+        else
+            basket = await harambeeCommerceContext
+                    .Baskets.Include(p => p.Customer)
+                    .Include(p => p.Products).ThenInclude(bp => bp.Product)
+                    .FirstAsync(basket => basket.CustomerId == customerId) ?? throw new InvalidOperationException("Basket not found");
 
-        basket = basketId.HasValue ?  _basketRepository.Update(basket) : await _basketRepository.AddAsync(basket);
-        await _basketRepository.SaveAsync();
+        if (basket.Products.Any(p => p.ProductId == productId))
+        {
+            basket.Products.First(p => p.ProductId == productId).Count += 1; 
+        }
+        else
+        {
+            basket.Products.Add(new ProductBasket
+            {
+                BasketId = basket.Id,
+                ProductId = productId,
+            });
 
-        return basket;
+        }
+
+        basket.TotalPrice += product.Price;
+
+        product.CountInStock -= 1;
+
+        basket.TotalPrice = CalculatePriceDiscount(basket.TotalPrice,basket.Products);
+
+        await harambeeCommerceContext.SaveChangesAsync();
+        return new BasketDto
+        {
+            Customer = new CustomerDto { Id = customer.Id, FirstName = customer.FirstName, LastName = customer.LastName },
+            Products = basket.Products.Select(p => new ProductDto { Count= p.Count, Id = p.Product.Id, Description = p.Product.Description, Name = p.Product.Name, Price = p.Product.Price }),
+            Id = basket.Id, 
+            TotalPrice = basket.TotalPrice,
+        }; ;
+    }
+
+    private decimal CalculatePriceDiscount(decimal price, ICollection<ProductBasket> products)
+    {
+        var discountPercentage = 0.5M;
+        var productCount = products.Sum( p => p.Count) ;
+
+        if (productCount < 5)
+            return price; 
+
+        return (price * discountPercentage) + price;
     }
 
     public async Task<decimal> CalculateBasketValue(long basketId)
     {
-        var basket =  await GetBasketAsync(basketId);
-        return basket is null ? 0M : basket.Products.Sum(x => x.Price);
+        var basket = await GetBasketAsync(basketId);
+        return basket is null ? 0M : basket.TotalPrice;
     }
 
-    public async Task<Basket> GetBasketAsync(long id) => await _basketRepository.FindAsync(id);  
+    public async Task<BasketDto> GetBasketAsync(long id)
+    {
+        var basket = await harambeeCommerceContext
+                    .Baskets.Include(p => p.Customer)
+                    .Include(p => p.Products).ThenInclude(bp => bp.Product)
+                    .FirstAsync(basket => basket.Id == id);
 
-    public async Task<Basket?> GetCustomerBasketByCustomerIdAsync(long customerId) => await _basketRepository.QuerySingle(x =>x.CustomerId == customerId && x.State == BasketState.Active);
-  
+        var customer = basket.Customer;
+        return new BasketDto
+        {
+            Customer = new CustomerDto { Id = customer.Id, FirstName = customer.FirstName, LastName = customer.LastName },
+            Products = basket.Products.Select(p => new ProductDto { Count = p.Count, Id = p.Product.Id, Description = p.Product.Description, Name = p.Product.Name, Price = p.Product.Price }),
+            Id = basket.Id,  
+            TotalPrice = basket.TotalPrice
+        };
+    }
+
+    public async Task<BasketDto> GetCustomerBasketByCustomerIdAsync(long customerId)
+    {
+        var basket = await harambeeCommerceContext
+                    .Baskets.Include(p => p.Customer)
+                    .Include(p => p.Products).ThenInclude(bp => bp.Product)
+                    .FirstAsync(basket => basket.CustomerId == customerId);
+
+        var customer = basket.Customer;
+        return new BasketDto
+        {
+            Customer = new CustomerDto { Id = customerId, FirstName = customer.FirstName, LastName = customer.LastName },
+            Products = basket.Products.Select(p => new ProductDto {Count = p.Count, Id = p.Product.Id, Description = p.Product.Description, Name = p.Product.Name, Price = p.Product.Price }),
+            Id = basket.Id,
+            TotalPrice = basket.TotalPrice
+        };
+    }
 }

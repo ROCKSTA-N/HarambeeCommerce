@@ -1,14 +1,15 @@
 ﻿using HarambeeCommerce.Persistence.Entities;
+using HarambeeCommerce.Services.Models;
 
 namespace HarambeeCommerce.Services.BasketServices;
 
 public interface IBasketService
 {
-    Task<Basket> GetBasketAsync(long id);
+    Task<BasketDto> GetBasketAsync(long id);
 
-    Task<Basket> GetCustomerBasketByCustomerIdAsync(long customerId);
+    Task<BasketDto> GetCustomerBasketByCustomerIdAsync(long customerId);
 
-    Task<Basket> AddProductToBasketAsync(long? basketId, long productId);
+    Task<BasketDto> AddProductToBasketAsync(long basketId, long productId, long customerId);
 
     Task<decimal> CalculateBasketValue(long basketId);
 }

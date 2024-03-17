@@ -5,5 +5,8 @@ public class Product : BaseEntity
     public string Name { get; set; }
     public string Description { get; set; }
     public decimal Price { get; set; }
-    public long CountInStock { get; set; }
+    public int CountInStock { get; set; }
+
+
+    public ICollection<ProductBasket> Baskets { get; set; }
 }
