@@ -31,3 +31,4 @@ Properties
 /pack.bat
 .vscode/*
 site/
+**/node_modules

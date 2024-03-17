@@ -1,4 +1,5 @@
-﻿using HarambeeCommerce.Services.CustomerServices;
+﻿using HarambeeCommerce.Persistence.Entities;
+using HarambeeCommerce.Services.CustomerServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HarambeeCommerceApi.Controllers;
@@ -12,6 +13,13 @@ public class CustomerController : ControllerBase
     public CustomerController(ICustomerService customerService)
     {
         _customerService = customerService;
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAllCustomers()
+    {
+        var customers = await _customerService.GetAllCustomersAsync();
+        return !customers.Any() ? NoContent() : Ok(customers);
     }
 
     [HttpGet("{customerId}")]

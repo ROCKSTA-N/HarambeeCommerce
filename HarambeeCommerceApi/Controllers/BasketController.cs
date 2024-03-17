@@ -30,6 +30,14 @@ public class BasketController : ControllerBase
         return Ok(price);
     }
 
+
+    [HttpGet("customer/{customerId}")]
+    public async Task<IActionResult> GetCustomerBasket(long customerId)
+    {
+        var basket = await _basketService.GetCustomerBasketByCustomerIdAsync(customerId);
+        return basket == null ? NoContent() : Ok(basket);
+    }
+
     [HttpPost("addProduct")]
     public async Task<IActionResult> CalculateBasketPrice([FromBody] AddProductDto data)
     {
