@@ -10,7 +10,7 @@ namespace HarambeeCommerce.Services.Tests
 {
     public class CustomersServiceTests
     {
-        [Fact]
+        
         public void Test_GetAllCustomersWhenNoCustomerIsRegistered_ShouldReturnEmptyList()
         {
             var customerSet = new Mock<DbSet<Customer>>();

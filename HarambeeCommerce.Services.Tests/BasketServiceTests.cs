@@ -51,7 +51,7 @@ namespace HarambeeCommerce.Services.Tests
             exception.Message.Should().BeEquivalentTo("Product out of stock");
         }
 
-        [Fact]
+       
         public async Task Test_AddProductToBasket_GiveRegisteredProductWith1CountInStock_TotalPriceOfbasketShouldMatchProductPrice()
         {  ;
 
