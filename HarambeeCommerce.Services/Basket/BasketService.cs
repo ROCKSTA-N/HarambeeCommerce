@@ -16,6 +16,8 @@ public class BasketService : IBasketService
 
     public async Task<BasketDto> AddProductToBasketAsync(long basketId, long productId, long customerId)
     {
+        var productAdded = false;
+
         var customer = await harambeeCommerceContext.Customers.FindAsync(customerId)
                     ?? throw new InvalidOperationException("Customer is required !");
 
@@ -32,33 +34,44 @@ public class BasketService : IBasketService
             basket = new Basket
             {
                 CustomerId = customerId,
-                Products = new List<ProductBasket>()
+                Products = new List<ProductBasket>
+                {
+                    new ProductBasket
+                    {
+                        BasketId = basket.Id,
+                        ProductId = productId
+                    }
+                }
             };
             var entityState = await harambeeCommerceContext.Baskets.AddAsync(basket);
             basket = entityState.Entity;
-        }
-        else
-        {
 
-            basket = await harambeeCommerceContext.Baskets
-                    .Include(x =>x.Customer)
-                    .Include(x => x.Products).ThenInclude(p =>p.Product)
-                    .FirstAsync(basket => basket.CustomerId == customerId) 
-                    ?? throw new InvalidOperationException("Basket not found");
+            await harambeeCommerceContext.SaveChangesAsync();
         }
 
-        if (basket.Products.Any(p => p.ProductId == productId))
+        basket = await harambeeCommerceContext.Baskets
+                .Include(x => x.Customer)
+                .Include(x => x.Products).ThenInclude(p => p.Product)
+                .FirstAsync(basket => basket.CustomerId == customerId)
+                ?? throw new InvalidOperationException("Basket not found");
+
+
+        if (!productAdded)
         {
-            basket.Products.First(p => p.ProductId == productId).Count += 1; 
-        }
-        else
-        {
-            basket.Products.Add(new ProductBasket
+            if (basket.Products.Any(p => p.ProductId == productId))
             {
-                BasketId = basket.Id,
-                ProductId = productId,
-            });
+                basket.Products.First(p => p.ProductId == productId).Count += 1;
+            }
+            else
+            {
+                basket.Products.Add(new ProductBasket
+                {
+                    BasketId = basket.Id,
+                    ProductId = productId
+                });
 
+            }
+            await harambeeCommerceContext.SaveChangesAsync();
         }
 
         basket.TotalPrice += product.Price;

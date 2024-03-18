@@ -25,10 +25,11 @@ namespace HarambeeCommerce.Services.Tests
         [Fact]
         public async Task Test_AddProductToBasket_GiveNonRegisteredUser_ThrowInvalidOperationExceptionAsync()
         {
-            var context = new Mock<HarambeeCommerceContext>();
-            context.Setup(m => m.Customers.FindAsync(It.IsAny<long>())).Returns(null);
+            // this test uses an in-memory db due to limitations in moq ,  i can not mock methods like include
+            _context.Database.EnsureDeleted();
+            _context.Database.EnsureCreated();
 
-            var service = new BasketService(context.Object);
+            var service = new BasketService(_context);
 
             var act = async () => await service.AddProductToBasketAsync(1, 1, 1);
             var exception = await Assert.ThrowsAsync<InvalidOperationException>(act);
@@ -38,10 +39,19 @@ namespace HarambeeCommerce.Services.Tests
         [Fact]
         public async Task Test_AddProductToBasket_GiveNonRegisteredProduct_ThrowInvalidOperationExceptionAsync()
         {
-            var context = new Mock<HarambeeCommerceContext>();
-            context.Setup(m => m.Customers.FindAsync(It.IsAny<long>())).ReturnsAsync(new Customer());
-            context.Setup(m => m.Products.FindAsync(It.IsAny<long>())).Returns(null);
-            var service = new BasketService(context.Object);
+            // this test uses an in-memory db due to limitations in moq ,  i can not mock methods like include
+            _context.Database.EnsureDeleted();
+            _context.Database.EnsureCreated();
+            _context.Customers.Add(new Customer
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DateCreated = DateTime.Now
+            });
+
+            _context.SaveChanges();
+
+            var service = new BasketService(_context);
 
             var act = async () => await service.AddProductToBasketAsync(1, 1, 1);
             var exception = await Assert.ThrowsAsync<InvalidOperationException>(act);
@@ -51,10 +61,28 @@ namespace HarambeeCommerce.Services.Tests
         [Fact]
         public async Task Test_AddProductToBasket_GiveRegisteredProductWith0CountInStock_ThrowInvalidOperationExceptionAsync()
         {
-            var context = new Mock<HarambeeCommerceContext>();
-            context.Setup(m => m.Customers.FindAsync(It.IsAny<long>())).ReturnsAsync(new Customer());
-            context.Setup(m => m.Products.FindAsync(It.IsAny<long>())).ReturnsAsync(new Product { CountInStock = 0 });
-            var service = new BasketService(context.Object);
+            // this test uses an in-memory db due to limitations in moq ,  i can not mock methods like include
+            _context.Database.EnsureDeleted();
+            _context.Database.EnsureCreated();
+            _context.Customers.Add(new Customer
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DateCreated = DateTime.Now
+            });
+
+            _context.Products.Add(new Product
+            {
+                Price = 10,
+                Description = "Test",
+                Name = "Test",
+                CountInStock = 0
+            });
+
+
+            _context.SaveChanges();
+
+            var service = new BasketService(_context);
 
             var act = async () => await service.AddProductToBasketAsync(1, 1, 1);
             var exception = await Assert.ThrowsAsync<InvalidOperationException>(act);
@@ -80,6 +108,27 @@ namespace HarambeeCommerce.Services.Tests
                 FirstName = "John",
                 LastName = "Doe",
                 DateCreated = DateTime.Now
+            });
+
+            _context.Baskets.Add(new Basket
+            {
+                CustomerId = 1,
+                Products = new List<ProductBasket>()
+                {
+                     new ProductBasket
+                     {
+                           ProductId = 1,
+                           BasketId = 1,
+                           Count = 1,
+                           Product = new Product
+                            {
+                                Price = 10,
+                                Description = "Test",
+                                Name = "Test",
+                                CountInStock = 10
+                            }
+                     }
+                }
             });
 
             _context.SaveChanges();
