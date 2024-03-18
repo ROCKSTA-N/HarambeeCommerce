@@ -1,7 +1,6 @@
 ﻿using FluentAssertions;
 using HarambeeCommerce.Persistence.Contexts;
 using HarambeeCommerce.Persistence.Entities;
-using HarambeeCommerce.Services.BasketServices;
 using HarambeeCommerce.Services.CustomerServices;
 using Microsoft.EntityFrameworkCore;
 using Moq;

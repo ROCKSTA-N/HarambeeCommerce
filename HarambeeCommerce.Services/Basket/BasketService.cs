@@ -1,8 +1,6 @@
 ﻿using HarambeeCommerce.Persistence.Contexts;
 using HarambeeCommerce.Persistence.Entities;
-using HarambeeCommerce.Persistence.Repository;
 using HarambeeCommerce.Services.Models;
-using HarambeeCommerce.Services.ProductServices;
 using Microsoft.EntityFrameworkCore;
 
 namespace HarambeeCommerce.Services.BasketServices;

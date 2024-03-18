@@ -1,5 +1,4 @@
-﻿using HarambeeCommerce.Persistence.Entities;
-using HarambeeCommerce.Services.CustomerServices;
+﻿using HarambeeCommerce.Services.CustomerServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HarambeeCommerceApi.Controllers;

@@ -1,11 +1,9 @@
-using Castle.Core.Resource;
 using FluentAssertions;
 using HarambeeCommerce.Persistence.Contexts;
 using HarambeeCommerce.Persistence.Entities;
 using HarambeeCommerce.Services.BasketServices;
 using Moq;
 using System.Linq.Expressions;
-using Xunit;
 namespace HarambeeCommerce.Services.Tests
 {
     public class BasketServiceTests

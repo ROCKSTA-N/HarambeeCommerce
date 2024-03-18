@@ -1,9 +1,6 @@
 ﻿using HarambeeCommerce.Persistence.Contexts;
-using HarambeeCommerce.Persistence.Entities;
-using HarambeeCommerce.Persistence.Repository;
 using HarambeeCommerce.Services.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Immutable;
 
 namespace HarambeeCommerce.Services.CustomerServices;
 
