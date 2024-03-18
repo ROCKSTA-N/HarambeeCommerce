@@ -1,4 +1,36 @@
-[![.NET](https://github.com/ROCKSTA-N/HarambeeCommerce/actions/workflows/dotnet.yml/badge.svg?branch=main)](https://github.com/ROCKSTA-N/HarambeeCommerce/actions/workflows/dotnet.yml)
+BUILD STATUS : [![.NET](https://github.com/ROCKSTA-N/HarambeeCommerce/actions/workflows/dotnet.yml/badge.svg?branch=main)](https://github.com/ROCKSTA-N/HarambeeCommerce/actions/workflows/dotnet.yml)
+
+# Harambee Exercise Web API
+
+This project is a .NET Web API for an e-commerce website selling electronics, such as TVs, radios, and cameras. It includes functionalities for managing customer details, products, shopping baskets, and bulk purchases with discounts.
+
+## Features
+
+- Retrieve customer details by ID
+- Retrieve all products
+- Add a product to the customer's basket (with bulk purchase discount if applicable)
+- Calculate the current value of the basket
+- Implement a discount policy on bulk purchases
+- Design a basic product search front-end page/view
+- Create an Entity-Relationship Diagram (ERD) for the application
+- Implement a Stored Procedure to retrieve the top 10 products bought in each of the last 3 months, including:
+  - The list of products ordered for each month
+  - The number of unique customers who bought each product
+
+## Technologies Used
+
+- .NET Web API
+- SQL (for data storage)
+- Entity Framework (for ORM)
+- Angular (for front-end page/view)
+
+## Installation and Usage
+
+1. Clone the repository:
+
+```bash
+git clone  https://github.com/ROCKSTA-N/HarambeeCommerce.git
+````
 
 ERD 
 
