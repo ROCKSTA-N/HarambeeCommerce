@@ -1,4 +1,5 @@
 ﻿using HarambeeCommerce.Services.CustomerServices;
+using HarambeeCommerce.Services.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HarambeeCommerceApi.Controllers;
@@ -27,5 +28,13 @@ public class CustomerController : ControllerBase
         var customer = await _customerService.GetCustomerById(customerId);
 
         return customer is null ? NoContent() : Ok(customer);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateCustomerAsync([FromBody] CustomerDto customer)
+    {
+        var newCustomer = await _customerService.CreateCustomerAsync(customer);
+
+        return customer is null ? NoContent() : Ok(newCustomer);
     }
 }

@@ -32,7 +32,7 @@ public class BasketService : IBasketService
             basket = new Basket
             {
                 CustomerId = customerId,
-                Products = Array.Empty<ProductBasket>()
+                Products = new List<ProductBasket>()
             };
             var entityState = await harambeeCommerceContext.Baskets.AddAsync(basket);
             basket = entityState.Entity;

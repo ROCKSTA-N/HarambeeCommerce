@@ -2,8 +2,11 @@ using FluentAssertions;
 using HarambeeCommerce.Persistence.Contexts;
 using HarambeeCommerce.Persistence.Entities;
 using HarambeeCommerce.Services.BasketServices;
+using Microsoft.EntityFrameworkCore;
 using Moq;
 using System.Linq.Expressions;
+using System.Reflection.Metadata;
+
 namespace HarambeeCommerce.Services.Tests
 {
     public class BasketServiceTests
@@ -48,29 +51,40 @@ namespace HarambeeCommerce.Services.Tests
             exception.Message.Should().BeEquivalentTo("Product out of stock");
         }
 
-       
+        [Fact]
         public async Task Test_AddProductToBasket_GiveRegisteredProductWith1CountInStock_TotalPriceOfbasketShouldMatchProductPrice()
-        {  ;
+        { 
 
-            var context = new Mock<HarambeeCommerceContext>();
+            var contextOptions = new DbContextOptionsBuilder<HarambeeCommerceContext>()
+                .UseInMemoryDatabase("ECommerce");
 
-            context.Setup(m => m.Baskets.FindAsync(It.IsAny<long>())).ReturnsAsync(new Basket { 
-                 Products = Array.Empty<ProductBasket>()
+            using var context = new HarambeeCommerceContext(contextOptions.Options);
+
+            context.Database.EnsureDeleted();
+            context.Database.EnsureCreated();
+
+            context.Products.Add(new Product
+            {
+                Price = 10,
+                Description = "Test",
+                Name = "Test",
+                CountInStock = 10
             });
 
-            context.Setup(m => m.ProductBaskets.SkipWhile(It.IsAny<Expression<Func<ProductBasket, bool>>>())).Returns(new List<ProductBasket>()
+            context.Customers.Add(new Customer
             {
-                new ProductBasket {
-                    Product = new Product { CountInStock = 1, Price = 100 }
-                }
-            }.AsQueryable());
-            context.Setup(m => m.Customers.FindAsync(It.IsAny<long>())).ReturnsAsync(new Customer());
-            context.Setup(m => m.Products.FindAsync(It.IsAny<long>())).ReturnsAsync(new Product { CountInStock = 1, Price = 100 });
-            var service = new BasketService(context.Object);
+                FirstName = "John",
+                LastName = "Doe",
+                DateCreated = DateTime.Now
+            });
 
-            var basket = await service.AddProductToBasketAsync(1, 1, 1);
+            context.SaveChanges();
 
-            basket.TotalPrice.Should().Be(100);
+            var service = new BasketService(context);
+
+            var basket = await service.AddProductToBasketAsync(0, 1, 1);
+
+            basket.TotalPrice.Should().Be(10);
         }
     }
 }

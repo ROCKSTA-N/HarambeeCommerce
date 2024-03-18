@@ -15,11 +15,6 @@ public class HarambeeCommerceContext : DbContext
     {
     }
 
-    public HarambeeCommerceContext() : base()
-    {
-    }
-
-
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
@@ -28,12 +23,5 @@ public class HarambeeCommerceContext : DbContext
         builder.ApplyConfiguration(new CustomerConfiguration());
         builder.ApplyConfiguration(new ProductConfiguration());
         builder.ApplyConfiguration(new ProductBasketConfiguration());
-    }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        base.OnConfiguring(optionsBuilder);
-
-        optionsBuilder.UseSqlServer("Data Source=localhost\\MSSQLSERVER01;Initial Catalog=ECommerce;Integrated Security=True");
     }
 }
