@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HarambeeCommerce.Services",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HarambeeCommerce.Persistence", "HarambeeCommerce.Persistence\HarambeeCommerce.Persistence.csproj", "{1397B4AD-B53E-4818-A06C-46F0D6190EEB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HarambeeCommerce.Services.Tests", "HarambeeCommerce.Services.Tests\HarambeeCommerce.Services.Tests.csproj", "{A00EF3E4-E846-47DD-B442-85E825826687}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HarambeeCommerce.Services.Tests", "HarambeeCommerce.Services.Tests\HarambeeCommerce.Services.Tests.csproj", "{A00EF3E4-E846-47DD-B442-85E825826687}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HarambeeCommerceApi.Tests", "HarambeeCommerceApi.Tests\HarambeeCommerceApi.Tests.csproj", "{876FB5B9-17A9-421B-909D-99499A250D46}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{A00EF3E4-E846-47DD-B442-85E825826687}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A00EF3E4-E846-47DD-B442-85E825826687}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A00EF3E4-E846-47DD-B442-85E825826687}.Release|Any CPU.Build.0 = Release|Any CPU
+		{876FB5B9-17A9-421B-909D-99499A250D46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{876FB5B9-17A9-421B-909D-99499A250D46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{876FB5B9-17A9-421B-909D-99499A250D46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{876FB5B9-17A9-421B-909D-99499A250D46}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

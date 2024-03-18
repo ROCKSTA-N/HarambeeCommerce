@@ -4,7 +4,7 @@ namespace HarambeeCommerce.Services.BasketServices;
 
 public interface IBasketService
 {
-    Task<BasketDto> GetBasketAsync(long id);
+    Task<BasketDto?> GetBasketAsync(long id);
 
     Task<BasketDto> GetCustomerBasketByCustomerIdAsync(long customerId);
 

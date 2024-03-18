@@ -113,12 +113,15 @@ public class BasketService : IBasketService
         return basket is null ? 0M : basket.TotalPrice;
     }
 
-    public async Task<BasketDto> GetBasketAsync(long id)
+    public async Task<BasketDto?> GetBasketAsync(long id)
     {
         var basket = await harambeeCommerceContext
                     .Baskets.Include(p => p.Customer)
                     .Include(p => p.Products).ThenInclude(bp => bp.Product)
-                    .FirstAsync(basket => basket.Id == id);
+                    .FirstOrDefaultAsync(basket => basket.Id == id);
+
+        if(basket == null)
+            return null;
 
         var customer = basket.Customer;
         return new BasketDto
