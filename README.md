@@ -1,5 +1,8 @@
 [![.NET](https://github.com/ROCKSTA-N/HarambeeCommerce/actions/workflows/dotnet.yml/badge.svg?branch=main)](https://github.com/ROCKSTA-N/HarambeeCommerce/actions/workflows/dotnet.yml)
 
+ERD 
+
+![image](https://github.com/ROCKSTA-N/HarambeeCommerce/assets/7715187/eb6423fe-e261-406c-89a9-1d4212f194af)
 
 DB Tables
 
