@@ -184,3 +184,19 @@
   .row-is-clicked {
     font-weight: bold;
   }
+
+  .search-card { 
+    max-width: 450px; 
+    margin: 10px; 
+  } 
+    
+  mat-card-subtitle { 
+    font-size: 18px; 
+  } 
+    
+  mat-card-title { 
+    color: black; 
+    font-size: 55px; 
+    justify-content: center; 
+    display: flex; 
+  }

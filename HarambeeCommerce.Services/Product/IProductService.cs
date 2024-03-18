@@ -6,4 +6,6 @@ public interface IProductService
 {
     Task<ProductDto> GetProductByIdAsync(long productId);
     public Task<ICollection<ProductDto>> GetProductsAsync();
+
+    Task<ProductDto?> GetProductByNameAsync(string name);
 }

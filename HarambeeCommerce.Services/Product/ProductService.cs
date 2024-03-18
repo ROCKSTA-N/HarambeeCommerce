@@ -1,4 +1,5 @@
 ﻿using HarambeeCommerce.Persistence.Contexts;
+using HarambeeCommerce.Persistence.Entities;
 using HarambeeCommerce.Services.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,6 +17,21 @@ public class ProductService : IProductService
     public async Task<ProductDto?> GetProductByIdAsync(long productId)
     {
         var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == productId);
+
+        return product == null ? null : new ProductDto
+        {
+            Count = product.CountInStock,
+            Id = product.Id,
+            Description = product.Description,
+            Name = product.Name,
+            Price = product.Price,
+            DateCreated = product.DateCreated,
+        };
+    }
+
+    public async Task<ProductDto?> GetProductByNameAsync(string name)
+    {
+        var product = await _context.Products.FirstOrDefaultAsync(p => p.Name == name);
 
         return product == null ? null : new ProductDto
         {

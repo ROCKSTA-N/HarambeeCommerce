@@ -21,4 +21,11 @@ public class ProductController : ControllerBase
 
         return !products.Any() ? NoContent() : Ok(products);
     }
+
+    [HttpGet("search/{producName}")]
+    public async Task<IActionResult> ProductSearchAsync(string producName)
+    {
+        var product = await _productService.GetProductByNameAsync(producName);
+        return Ok(product);
+    }
 }

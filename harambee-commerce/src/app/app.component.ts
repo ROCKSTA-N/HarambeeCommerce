@@ -4,15 +4,17 @@ import { CommerceService } from './haramabee-servies/commerce.service';
 import { Basket, Customer, product } from './models/product.model';
 import { CommonModule } from '@angular/common'; 
 import {MatTableModule} from '@angular/material/table';
-import {FormsModule} from '@angular/forms';
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatCardModule} from '@angular/material/card';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule,MatTableModule,MatFormFieldModule, MatSelectModule, MatInputModule],
+  imports: [RouterOutlet, CommonModule,MatTableModule,MatFormFieldModule,
+     MatSelectModule, MatInputModule,MatCardModule, ReactiveFormsModule,FormsModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
   providers: [CommerceService],
@@ -20,6 +22,16 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 })
 export class AppComponent implements OnInit{
   title = 'harambee-commerce'; 
+
+
+  
+
+  searchForm = new FormGroup({
+    producSearchField : new FormControl('')
+  });
+
+
+
   products :product[] = [];
   customers :Customer[] = [];
   customerBasket: Basket = {
@@ -41,7 +53,7 @@ export class AppComponent implements OnInit{
      lastName : ""
   };
   basketvalue: number = 0;
-
+  searchedProduct : product[] = [];
   constructor( public service : CommerceService) {
 
   }
@@ -52,6 +64,19 @@ export class AppComponent implements OnInit{
 
     this.service.GetCcustomers().subscribe(data => {
       this.customers = data;
+    });
+  }
+
+  Submit(){
+    console.warn(this.searchForm.value);
+
+    this.service.productSearch(this.searchForm.value.producSearchField)
+    .subscribe(data => {
+        if(data){
+          this.searchedProduct = [data];
+        }else{
+          alert("Produc not found")
+        }
     });
   }
 

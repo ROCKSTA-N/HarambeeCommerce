@@ -16,6 +16,13 @@ export class CommerceService{
       }));
     }
 
+    public productSearch(name : string | null | undefined) : Observable<product>{
+        return this.http.get<product>(`http://localhost:5286/api/Product/search/${name}`)
+        .pipe(map(response => {
+          return response;
+        }));
+      }
+
     public GetCcustomers() : Observable<Customer[]>{
         return this.http.get<Customer[]>('http://localhost:5286/api/Customer')
         .pipe(map(response => {
