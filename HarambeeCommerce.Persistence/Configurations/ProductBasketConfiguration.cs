@@ -22,5 +22,7 @@ public class ProductBasketConfiguration : IEntityTypeConfiguration<ProductBasket
             .HasOne(bp => bp.Product)
             .WithMany(p => p.Baskets)
             .HasForeignKey(bp => bp.ProductId);
+
+        builder.Property(x => x.DateCreated).HasDefaultValue(DateTime.Now);
     }
 }

@@ -4,6 +4,7 @@ using HarambeeCommerce.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HarambeeCommerce.Persistence.Migrations
 {
     [DbContext(typeof(HarambeeCommerceContext))]
-    partial class HarambeeCommerceContextModelSnapshot : ModelSnapshot
+    [Migration("20240318074608_AddDateCreated")]
+    partial class AddDateCreated
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,7 +38,7 @@ namespace HarambeeCommerce.Persistence.Migrations
                     b.Property<DateTime>("DateCreated")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(DateTime.Now);
+                        .HasDefaultValue(new DateTime(2024, 3, 18, 9, 46, 8, 303, DateTimeKind.Local).AddTicks(6394));
 
                     b.Property<decimal>("TotalPrice")
                         .ValueGeneratedOnAdd()

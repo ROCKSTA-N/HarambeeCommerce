@@ -15,5 +15,6 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
         builder.Property(x => x.Id).UseIdentityColumn();
         builder.Property(x => x.FirstName).IsRequired();
         builder.Property(x => x.LastName).IsRequired();
+        builder.Property(x => x.DateCreated).HasDefaultValue(DateTime.Now);
     }
 }

@@ -13,5 +13,7 @@ namespace HarambeeCommerce.Services.Models
 
         public IEnumerable<ProductDto> Products { get; set; }
         public CustomerDto Customer { get; set; }
+
+        public DateTime DateCreated { get; set; }
     }
 }

@@ -16,6 +16,8 @@ public class ProductBasket
     public long ProductId { get; set; }
     public long BasketId { get; set; }
 
+    public DateTime DateCreated { get; set; }
+
     public int Count { get; set; }
 
     public Basket Basket { get; set; }

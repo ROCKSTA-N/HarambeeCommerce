@@ -71,11 +71,15 @@ public class BasketService : IBasketService
         await harambeeCommerceContext.SaveChangesAsync();
         return new BasketDto
         {
-            Customer = new CustomerDto { Id = customer.Id, FirstName = customer.FirstName, LastName = customer.LastName },
-            Products = basket.Products.Select(p => new ProductDto { Count= p.Count, Id = p.Product.Id, Description = p.Product.Description, Name = p.Product.Name, Price = p.Product.Price }),
+            Customer = new CustomerDto { Id = customer.Id, FirstName = customer.FirstName, LastName = customer.LastName , DateCreated = customer.DateCreated},
+            Products = basket.Products.Select(p => new ProductDto {
+                Count= p.Count, Id = p.Product.Id, Description = p.Product.Description, Name = p.Product.Name, Price = p.Product.Price,
+                DateCreated = p.DateCreated
+            }),
             Id = basket.Id, 
             TotalPrice = basket.TotalPrice,
-        }; ;
+            DateCreated = basket.DateCreated
+        };
     }
 
     private async Task<ICollection<ProductBasket>> AttachProductsAsync(long id)
@@ -110,10 +114,19 @@ public class BasketService : IBasketService
         var customer = basket.Customer;
         return new BasketDto
         {
-            Customer = new CustomerDto { Id = customer.Id, FirstName = customer.FirstName, LastName = customer.LastName },
-            Products = basket.Products.Select(p => new ProductDto { Count = p.Count, Id = p.Product.Id, Description = p.Product.Description, Name = p.Product.Name, Price = p.Product.Price }),
-            Id = basket.Id,  
-            TotalPrice = basket.TotalPrice
+            Customer = new CustomerDto { Id = customer.Id, FirstName = customer.FirstName, LastName = customer.LastName, DateCreated = customer.DateCreated },
+            Products = basket.Products.Select(p => new ProductDto
+            {
+                Count = p.Count,
+                Id = p.Product.Id,
+                Description = p.Product.Description,
+                Name = p.Product.Name,
+                Price = p.Product.Price,
+                DateCreated = p.DateCreated
+            }),
+            Id = basket.Id,
+            TotalPrice = basket.TotalPrice,
+            DateCreated = basket.DateCreated
         };
     }
 
@@ -127,10 +140,19 @@ public class BasketService : IBasketService
         var customer = basket.Customer;
         return new BasketDto
         {
-            Customer = new CustomerDto { Id = customerId, FirstName = customer.FirstName, LastName = customer.LastName },
-            Products = basket.Products.Select(p => new ProductDto {Count = p.Count, Id = p.Product.Id, Description = p.Product.Description, Name = p.Product.Name, Price = p.Product.Price }),
+            Customer = new CustomerDto { Id = customer.Id, FirstName = customer.FirstName, LastName = customer.LastName, DateCreated = customer.DateCreated },
+            Products = basket.Products.Select(p => new ProductDto
+            {
+                Count = p.Count,
+                Id = p.Product.Id,
+                Description = p.Product.Description,
+                Name = p.Product.Name,
+                Price = p.Product.Price,
+                DateCreated = p.DateCreated
+            }),
             Id = basket.Id,
-            TotalPrice = basket.TotalPrice
+            TotalPrice = basket.TotalPrice,
+            DateCreated = basket.DateCreated
         };
     }
 }

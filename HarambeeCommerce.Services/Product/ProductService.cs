@@ -17,15 +17,16 @@ public class ProductService : IProductService
 
     public async Task<ProductDto?> GetProductByIdAsync(long productId)
     {
-        var product =await _context.Products.FirstOrDefaultAsync(p => p.Id == productId);
+        var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == productId);
 
         return product == null ? null : new ProductDto
         {
-             Count = product.CountInStock,
-             Id = product.Id,
-              Description = product.Description,
-               Name = product.Name,
-               Price = product.Price
+            Count = product.CountInStock,
+            Id = product.Id,
+            Description = product.Description,
+            Name = product.Name,
+            Price = product.Price,
+            DateCreated = product.DateCreated,
         };
     }
 
@@ -33,13 +34,14 @@ public class ProductService : IProductService
     {
         var products = await _context.Products.ToListAsync();
 
-        return products.Any() ?  products.Select(product => new ProductDto
+        return products.Any() ? products.Select(product => new ProductDto
         {
             Count = product.CountInStock,
             Id = product.Id,
             Description = product.Description,
             Name = product.Name,
-            Price = product.Price
+            Price = product.Price,
+            DateCreated = product.DateCreated,
         }).ToList() : Array.Empty<ProductDto>();
     }
 }

@@ -3,7 +3,6 @@ using FluentAssertions;
 using HarambeeCommerce.Persistence.Contexts;
 using HarambeeCommerce.Persistence.Entities;
 using HarambeeCommerce.Services.BasketServices;
-using Microsoft.EntityFrameworkCore;
 using Moq;
 using System.Linq.Expressions;
 using Xunit;

@@ -17,5 +17,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.Property(x => x.Description).IsRequired();
         builder.Property(x => x.Price).IsRequired();
         builder.Property(x => x.CountInStock).HasDefaultValue(1);
+
+        builder.Property(x => x.DateCreated).HasDefaultValue(DateTime.Now);
     }
 }

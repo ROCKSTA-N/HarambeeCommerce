@@ -25,7 +25,8 @@ public class CustomerService : ICustomerService
             {
                 FirstName = customer.FirstName,
                 Id = customer.Id,
-                LastName = customer.LastName
+                LastName = customer.LastName,
+                DateCreated = customer.DateCreated
             }).ToList();
     }
 
@@ -37,7 +38,8 @@ public class CustomerService : ICustomerService
         {
             FirstName = customer.FirstName,
             Id = customer.Id,
-            LastName = customer.LastName
+            LastName = customer.LastName,
+            DateCreated = customer.DateCreated
         };
     }
 
